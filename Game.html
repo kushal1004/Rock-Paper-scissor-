@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head >
+    <title>Game</title>
+    <link rel="icon" type="image/png" href="rock-paper-scissors.png">
+    <style>
+        body{
+           background-image: url('game.jpg');
+           background-size: cover;
+           height: 500%;
+        }
+        #stone{
+            font-size: 28px;
+            font-weight: bold;
+            width: 25%;
+            border: 1.5px solid black;
+            border-radius: 10px;
+            height: 50px;
+            background-color: rgba(30, 143, 255, 0.532);
+            cursor: pointer;
+            margin-left: 10% ;
+            margin-top: 5%;
+        }
+        #stone:hover, #paper:hover, #scissor:hover {
+            background-color: rgb(4, 0, 255);
+            cursor: pointer;
+        }
+        #stone:active, #paper:active, #scissor:active {
+            transform: translateY(2px);
+            box-shadow: 4px 4px #041e6dd1;
+        }
+           
+        #paper{
+            font-size: 28px;
+            font-weight: bold;
+            width: 25%;
+            border: 1.5px solid black;
+            border-radius: 10px;
+            height: 50px;
+            background-color: rgba(30, 143, 255, 0.532);
+            cursor: pointer;
+            margin-left: 2% ;
+            margin-top: 5%;
+
+        }
+        #scissor{
+            font-size: 28px;
+            font-weight: bold;
+            width: 25%;
+            border: 1.5px solid black;
+            border-radius: 10px;
+            height: 50px;
+            background-color: rgba(30, 143, 255, 0.532);
+            cursor: pointer;
+            margin-left: 2% ;
+            margin-top: 5%;
+        }
+        #game{
+            text-align: center;
+            top: 50%;
+            font-size: 250%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src = "rock-paper-scissors.png" title="rock paper scissors icons" width="1.5%">
+    </header>
+    <h1 style="margin-left: 33%;">Stone /Paper You v/s Computer</h1>
+    <button id="stone" onclick="
+
+    let myChoice = 'stone';
+    choice = computerChoice();
+    let result = '';
+    if(choice === 'stone')
+    { result = '🙂It Draw';}
+     else if(choice === 'paper'){
+     result = 'oops! 😢 You Lost The Game';}
+     else{result='🥳You Win the Game..';}
+     document.getElementById('game').innerHTML = `Computer choice is ${choice} and ${result}`;
+    // alert(`Computer choice is ${choice} and ${result}`);">
+     
+     Stone  </button>
+
+
+    <button id = "paper" onclick="
+
+     myChoice = 'paper';
+    
+      result = '';
+      let choice = computerChoice();
+    if(choice === 'stone')
+    { result = '🥳You Win the Game..'}
+     else if(choice === 'paper')
+     { result = '🙂It Draw';}
+     else
+     { result='oops! 😢 You Lost The Game'}
+     document.getElementById('game').innerHTML = `Computer choice is ${choice} and ${result}`;
+     //alert(`Computer choice is ${choice} and ${result}`);">
+     Paper </button>
+
+
+    <button id = "scissor" onclick="
+
+     myChoice = 'scissor';
+    choice = computerChoice();
+      result = '';
+    if(choice === 'stone')
+    { result = 'oops! 😢 You Lost The Game';}
+     else if(choice === 'paper'){
+     result = '🥳You Win the Game..';}
+     else{result='🙂It Draw';}
+     document.getElementById('game').innerHTML = `Computer choice is ${choice} and ${result}`;
+     //alert(`Computer choice is ${choice} and ${result}`);">
+     Scissor  </button>
+    <div id="game"><span></span></div>
+
+    <script>
+     function computerChoice(){
+        let choice = Math.random()*3;
+        /*
+        if(choice>=0 && choice<1)
+        {
+            return 'stone';
+        }
+        else if(choice>=1 && choice<2){
+            return 'paper';
+        }
+        else{
+            return 'scissor';
+        }*/
+
+        // using ternary operator 
+       let result= (choice>=0 && choice<1) ? 'stone' :(choice>=1 && choice<2) ? 'paper' :'scissor';
+       return result;
+    }
+    </script>
+</body>
+</html>
