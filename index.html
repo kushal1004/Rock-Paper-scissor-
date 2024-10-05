@@ -7,7 +7,7 @@
         body{
            background-image: url('game.jpg');
            background-size: cover;
-            background-position:center;
+            background-position: center;
            height: 500%;
         }
         #stone{
@@ -22,11 +22,11 @@
             margin-left: 10% ;
             margin-top: 5%;
         }
-        #stone:hover, #paper:hover, #scissor:hover {
+        #stone:hover, #paper:hover, #scissor:hover,#reset:hover {
             background-color: rgb(4, 0, 255);
             cursor: pointer;
         }
-        #stone:active, #paper:active, #scissor:active {
+        #stone:active, #paper:active, #scissor:active, #reset:active {
             transform: translateY(2px);
             box-shadow: 4px 4px #041e6dd1;
         }
@@ -56,10 +56,22 @@
             margin-left: 2% ;
             margin-top: 5%;
         }
-        #game{
+        #reset{
+            font-size: 23px;
+            font-weight: bold;
+            width: 8%;
+            border: 1.5px solid black;
+            border-radius: 20px;
+            height: 30px;
+            background-color: rgba(30, 255, 90, 0.556);
+            cursor: pointer;
+            margin-left: 2% ;
+            margin-top: 5%;
+        }
+        #user-move,#computer-move,#result,#score {
             text-align: center;
-            top: 50%;
-            font-size: 250%;
+            font-size: 36px;
+            font-weight: bolder;
         }
     </style>
 </head>
@@ -68,72 +80,114 @@
         <img src = "rock-paper-scissors.png" title="rock paper scissors icons" width="1.5%">
     </header>
     <h1 style="margin-left: 33%;">Stone /Paper You v/s Computer</h1>
-    <button id="stone" onclick="
 
+    <button id="stone" onclick="
     let myChoice = 'stone';
-    choice = computerChoice();
-    let result = '';
-    if(choice === 'stone')
-    { result = '🙂It Draw';}
-     else if(choice === 'paper'){
-     result = 'oops! 😢 You Lost The Game';}
-     else{result='🥳You Win the Game..';}
-     document.getElementById('game').innerHTML = `Computer choice is ${choice} and ${result}`;
-    // alert(`Computer choice is ${choice} and ${result}`);">
-     
-     Stone  </button>
+    let choice = computerChoice();
+    let result = getResult(myChoice,choice)
+    showResult(result,myChoice,choice);"    >Stone  </button>
 
 
     <button id = "paper" onclick="
-
-     myChoice = 'paper';
-    
-      result = '';
-      let choice = computerChoice();
-    if(choice === 'stone')
-    { result = '🥳You Win the Game..'}
-     else if(choice === 'paper')
-     { result = '🙂It Draw';}
-     else
-     { result='oops! 😢 You Lost The Game'}
-     document.getElementById('game').innerHTML = `Computer choice is ${choice} and ${result}`;
-     //alert(`Computer choice is ${choice} and ${result}`);">
-     Paper </button>
+    myChoice = 'paper';
+    choice = computerChoice();
+    result = getResult(myChoice,choice);
+    showResult(result,myChoice,choice);"    >Paper </button>
 
 
     <button id = "scissor" onclick="
-
-     myChoice = 'scissor';
+    myChoice = 'scissor';
     choice = computerChoice();
-      result = '';
-    if(choice === 'stone')
-    { result = 'oops! 😢 You Lost The Game';}
-     else if(choice === 'paper'){
-     result = '🥳You Win the Game..';}
-     else{result='🙂It Draw';}
-     document.getElementById('game').innerHTML = `Computer choice is ${choice} and ${result}`;
-     //alert(`Computer choice is ${choice} and ${result}`);">
-     Scissor  </button>
-    <div id="game"><span></span></div>
+    result = getResult(myChoice,choice);
+    showResult(result,myChoice,choice);"    >Scissor  </button>
+    <button id = "reset" onclick="localStorage.clear() 
+    resetScore() ">Reset</button>
 
+    <div id="user-move"></div>
+    <div id="computer-move"></div>
+    <div id="result"></div>
+    <div id="score"></div>
     <script>
+        let scoreStr = localStorage.getItem('Score');
+        let score;
+        resetScore(scoreStr);
+        function resetScore(scoreStr)
+        {
+            score = scoreStr ? JSON.parse(scoreStr) :
+            {
+                win :0,
+                lost :0,
+                tie :0,
+            };
+        score.displayScore = function(){
+            return `Won: ${score.win} Lost: ${score.lost} Tie: ${score.tie}`;
+       }
+       showResult();
+    }
+    
      function computerChoice(){
         let choice = Math.random()*3;
-        /*
-        if(choice>=0 && choice<1)
-        {
-            return 'stone';
-        }
-        else if(choice>=1 && choice<2){
-            return 'paper';
-        }
-        else{
-            return 'scissor';
-        }*/
-
-        // using ternary operator 
        let result= (choice>=0 && choice<1) ? 'stone' :(choice>=1 && choice<2) ? 'paper' :'scissor';
        return result;
+    }
+
+    function getResult(userMove,computerMove){
+        if(userMove === 'stone')
+        {
+             if(computerMove === 'stone')
+             { 
+                score.tie++;
+               return 'Draw';
+             }
+                 else if(computerMove === 'paper')
+                 {
+                    score.lost++;
+                    return 'Lost';
+                 }
+                 else{
+                score.win++;
+                return 'Win';
+                  }
+        }else if(userMove === 'paper')
+        {
+            if(computerMove === 'stone')
+              { 
+                score.win++;
+                 return 'win';
+              }
+            else if(computerMove === 'paper')
+              { 
+                score.tie++;
+                return 'Draw';
+              }
+            else{ 
+                score.lost++;
+                return 'Lost';
+                }
+
+        }else{
+            if(computerMove === 'stone')
+                { 
+                    score.lost++;
+                    return 'Lost';
+                }
+            else if(computerMove === 'paper')
+                {
+                    score.win++;
+                    return 'win';
+                }
+            else{
+                    score.tie++;
+                    return 'Draw';
+                }
+        }
+    }
+    function showResult(res,userMove,computerMove){
+        document.querySelector('#user-move').innerHTML = userMove !== undefined ? `You :) ${userMove}`: '';
+        document.querySelector('#computer-move').innerHTML = computerMove !== undefined ? `Computer :) ${computerMove}`: '';
+        document.querySelector('#result').innerHTML = res !== undefined ? `Result :) ${res}`: '';
+        document.querySelector('#score').innerHTML = `Score :) ${score.displayScore()}`;
+        localStorage.setItem('Score',JSON.stringify(score));
     }
     </script>
 </body>
